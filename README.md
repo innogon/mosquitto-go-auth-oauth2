@@ -15,6 +15,10 @@ docker run -it -p 1884:1884 -p 1883:1883 -v $PWD/example_conf:/etc/mosquitto oau
 
 Setup Keycloak like shown in chapter "Configure Keycloak via RestAPI". Then run somethink like MQTT.fx to check if it´s working like you expect.
 
+## What about the script start.sh ?
+
+The broker initializes an oauth2 session with Keycloak on startup. Keycloak by default times out any oauth2 session after 10hr. So the session can´t be prolonged with the refresh token. Step one for us was to increase this 10hr limit to 26hr. And step two was to restart the broker each 24hrs. The script ends the mosquitto binary after 24hrs. It´s getting restarted by the docker-compose restart policy. In the meantime the script checks if the broker is still alive an restarts it in case of a crash.
+
 ## How to use
 
 This plugin use oauth to authenticate and authorize users for a mqtt broker. Unfornatly is it necassary, that the oauth server response with allowed topics for the user. So the authentication is simple and possible with all kinds of oauth servers. But for the acl check, server have to answer with a special json on the userinfo endpoint. This is the structur: 
