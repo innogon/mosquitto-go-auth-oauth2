@@ -2,6 +2,19 @@
 
 This is a custom backend for the [mosquitto go auth plugin](https://github.com/iegomez/mosquitto-go-auth) that can handle the authentification and authorization with a oauth2 server.
 
+## Build it
+
+Clone repo and build like this:
+
+```bash
+git clone https://github.com/innogon/mosquitto-go-auth-oauth2.git
+cd mosquitto-go-auth-oauth2
+docker build -t oauth2_broker .
+docker run -it -p 1884:1884 -p 1883:1883 -v $PWD/example_conf:/etc/mosquitto oauth2_broker
+```
+
+Setup Keycloak like shown in chapter "Configure Keycloak via RestAPI". Then run somethink like MQTT.fx to check if it´s working like you expect.
+
 ## How to use
 
 This plugin use oauth to authenticate and authorize users for a mqtt broker. Unfornatly is it necassary, that the oauth server response with allowed topics for the user. So the authentication is simple and possible with all kinds of oauth servers. But for the acl check, server have to answer with a special json on the userinfo endpoint. This is the structur: 
