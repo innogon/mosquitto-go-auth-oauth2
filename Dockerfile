@@ -69,4 +69,8 @@ COPY --from=builder /app/pw /mosquitto/pw
 #Expose tcp and websocket ports as defined at mosquitto.conf (change accordingly).
 EXPOSE 1883 1884
 
-ENTRYPOINT ["sh", "-c", "/usr/sbin/mosquitto -c /etc/mosquitto/mosquitto.conf" ]
+RUN apt-get install -y procps nano
+COPY start.sh /start.sh
+
+# ENTRYPOINT ["sh", "-c", "/usr/sbin/mosquitto -c /etc/mosquitto/mosquitto.conf" ]
+ ENTRYPOINT ["sh", "-c", "/start.sh" ]
